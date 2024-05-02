@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Parse command-line arguments
-CONFIG_FILE="~/sample_config.yaml"  # Default config file
+CONFIG_FILE="/usr/app/globalmon/config.yaml"  # Default config file
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
