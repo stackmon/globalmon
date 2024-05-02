@@ -1,2 +1,10 @@
-this:
-  that: there
+elements:
+  myservice1:
+    urls:
+      - "https://myservice1.example.com"
+  myservice2:
+    urls:
+      - "https://myservice2.example.com"
+  myservice3:
+    urls:
+      - "https://myservice3.example.com"
