@@ -16,7 +16,10 @@ setup(
     keywords='global URL monitoring endpoints',
     
     # Packages to include
-    packages=find_packages(),
+    package_dir={'':'src'},
+    packages=[
+        'globalmon',
+    ],
 
     #Dependencies
     install_requires=[
@@ -27,7 +30,7 @@ setup(
     # Entry points
     entry_points={
         'console_scripts': [
-            'globalmon = src.server:main',  # Example command-line script
+            'globalmon = globalmon.server:main',  # Example command-line script
         ],
     },
 

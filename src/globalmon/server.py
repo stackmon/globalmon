@@ -14,8 +14,15 @@
 
 import argparse
 import yaml
+import threading
+import logging
+from globalmon.globalmon_worker import GlobalmonWorker
 
 def load_config(config_file):
+    """
+    Loads YAML configuration file from path `config_file` and
+    returns python object.
+    """
     try:
         with open(config_file, 'r') as f:
             config = yaml.safe_load(f)
@@ -24,12 +31,20 @@ def load_config(config_file):
         raise ValueError(f"Error parsing YAML file: {e}")
 
 def main():
+
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config-file', required=True, help='Path to the config file')
+    parser.add_argument('--config', required=True, help='Path to the config file')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode')
     args = parser.parse_args()
 
-    config_filepath = args.config_file
+    if args.debug:
+        logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+    else:
+        logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
+    config_filepath = args.config
+
+    logging.info("Loading configuration file.")
     # Check if the file extension is .yaml or .yml
     if not config_filepath.lower().endswith(('.yaml', '.yml')):
         raise ValueError("Config file must be a YAML file (.yaml or .yml)")
@@ -40,6 +55,26 @@ def main():
     # Your main application logic here
     print("Reading configuration:")
     print(config)
+
+    logging.info("Creating a new worker.")
+    globalmonWorker = GlobalmonWorker(config)
+
+    # Create a new thread
+    worker_thread = threading.Thread(target=globalmonWorker.run)
+
+    try:
+        # Start the thread
+        worker_thread.start()
+
+        # Wait for the thread to finish
+        worker_thread.join()
+    except KeyboardInterrupt:
+        print("Keyboard interrupt received. Stopping the program...")
+        globalmonWorker.stop()  # Signal the worker to stop
+        worker_thread.join()  # Wait for the worker thread to finish
+
+    print("Exiting gracefully.")
+
 
 if __name__ == "__main__":
     main()

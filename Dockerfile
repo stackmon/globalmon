@@ -43,3 +43,8 @@ RUN cd globalmon && python setup.py install
 COPY ./scripts/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Change user to globalmon
+USER globalmon
+ENV HOME=/home/globalmon
+
+ENTRYPOINT ["entrypoint.sh"]

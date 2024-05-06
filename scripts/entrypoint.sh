@@ -5,7 +5,7 @@ CONFIG_FILE="/usr/app/globalmon/config.yaml"  # Default config file
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
-        --config-file)
+        --config)
         CONFIG_FILE="$2"
         shift
         shift
@@ -17,4 +17,4 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Run my_app.py with the specified config file
-globalmon --config-file "$CONFIG_FILE"
+globalmon --config "$CONFIG_FILE"  >> /var/log/globalmon/globalmon.log 2>&1
