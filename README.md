@@ -24,7 +24,7 @@ python3 setup.py install
 Once the install is completed, globalmon can be executed as:
 
 ```
-globalmon --config-file *path/to/your/config.yaml*
+globalmon --config *path/to/your/config.yaml*
 ```
 
 ### Containerized Installation
@@ -49,5 +49,5 @@ docker run -v /path/to/config.yaml:/usr/app/globalmon/config.yaml globalmon
 ```
 **OR**
 ```
-docker run -v /path/to/config.yaml:/some/other/path/config.yaml globalmon --config-file /some/other/path/config.yaml
+docker run -v /path/to/config.yaml:/some/other/path/config.yaml globalmon --config /some/other/path/config.yaml
 ```
