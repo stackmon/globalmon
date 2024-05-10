@@ -24,6 +24,7 @@ setup(
     #Dependencies
     install_requires=[
         'PyYAML',
+        'requests',
         # Add more dependencies as needed
     ],
 
