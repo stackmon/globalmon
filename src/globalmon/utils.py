@@ -34,9 +34,9 @@ def heartbeat_check(services):
       Structure:
       
       service_name:
-        - url: url1
+        url1:
           return_code: x
-          return_time: x ms
+          return_time: x
     """
     result = {}
     for service, url_list in services.items():
@@ -47,10 +47,10 @@ def heartbeat_check(services):
                 start_time = time.time()
                 response = requests.get(url)
                 end_time = time.time()
-                response_time = (end_time - start_time) * 1000  # Convert to milliseconds
+                response_time = int((end_time - start_time) * 1000)  # Convert to milliseconds
                 return_data = {
                     'return_code': response.status_code,
-                    'return_time': f"{response_time:.2f} ms"
+                    'return_time': response_time
                 }
                 result[service][url] = return_data
             except requests.RequestException as e:
@@ -74,3 +74,22 @@ def initialize_statsd_client(host='localhost', port=8125):
     - statsd.StatsClient: The initialized StatsD client.
     """
     return statsd.StatsClient(host, port)
+
+def log_to_statsd(statsd_client, path_prefix, results):
+    """
+    Send data to StatsD.
+
+    Args:
+    - statsd_client (statsd.StatsClient): The initialized StatsD client.
+    - prefix (prefix): The name of the timer metric.
+    - results (dict): The duration in milliseconds.
+    
+    """
+
+    for service, service_results in results.items():
+        logging.info(f"Logging {service}...")
+        for url, respose in service_results.items():
+            service_path = f'{path_prefix}.{service}.{url}'
+            statsd_client.timing(f'stats.timer.{service_path}.{respose['return_code']}', respose['return_time'])
+            statsd_client.incr(f'stats.counter.{service_path}.{respose['return_code']}')
+
