@@ -14,12 +14,14 @@
 import logging
 import time
 import yaml
-from globalmon.utils import heartbeat_check
+from globalmon.utils import heartbeat_check, initialize_statsd_client
 
 class GlobalmonWorker:
     def __init__(self, config) -> None:
         self.config = config
         self.keep_running = True
+        if(config["statsd"]):
+            self.statsd_client = initialize_statsd_client(config["statsd"]["host"], config["statsd"]["port"])
 
     def run(self):
         """

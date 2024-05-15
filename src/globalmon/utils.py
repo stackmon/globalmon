@@ -14,6 +14,7 @@
 import time
 import requests
 import logging
+import statsd
 
 
 def heartbeat_check(services):
@@ -36,7 +37,6 @@ def heartbeat_check(services):
         - url: url1
           return_code: x
           return_time: x ms
-          
     """
     result = {}
     for service, url_list in services.items():
@@ -60,3 +60,17 @@ def heartbeat_check(services):
                 }
                 result[service][url] = return_data
     return result
+
+
+def initialize_statsd_client(host='localhost', port=8125):
+    """
+    Initialize the StatsD client.
+
+    Args:
+    - host (str): The hostname of the StatsD server. Default is 'localhost'.
+    - port (int): The port of the StatsD server. Default is 8125.
+
+    Returns:
+    - statsd.StatsClient: The initialized StatsD client.
+    """
+    return statsd.StatsClient(host, port)
