@@ -16,25 +16,30 @@ import requests
 import logging
 
 
-def heartbeat_check(elements):
+def heartbeat_check(services):
     """
-    This function takes a dictionary 
-
-    service_name:
-        urls:
-            - url1
-            ...
+    Checks the reachability of URLs defined in dictionary 'services'
+    Args:
+    - services (dict) 
+      Structure:
+      
+      service_name:
+          urls:
+              - url1
+              ...
     
-    It returns the dictionary, result, containing return_code and return_time
-
-    service_name:
+    Returns: 
+    - Dictionary, result, containing return_code and return_time
+      Structure:
+      
+      service_name:
         - url: url1
           return_code: x
           return_time: x ms
           
     """
     result = {}
-    for service, url_list in elements.items():
+    for service, url_list in services.items():
         logging.info(f"Checking {service}...")
         result[service] = {}
         for url in url_list['urls']:

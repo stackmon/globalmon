@@ -1,5 +1,5 @@
 # This is a sample configuration file
-elements:
+services:
   myservice1:
     urls:
       - "https://myservice1.example.com"

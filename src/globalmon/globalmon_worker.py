@@ -30,8 +30,8 @@ class GlobalmonWorker:
                 logging.info(f"Starting worker thread...")
                 #print(f"Running with configuration file: \n{self.config}")
 
-                heartbeat_results = heartbeat_check(self.config['elements'])
-                print(yaml.dump({'elements': heartbeat_results}, default_flow_style=False))
+                heartbeat_results = heartbeat_check(self.config['services'])
+                print(yaml.dump({'services': heartbeat_results}, default_flow_style=False))
                 time.sleep(5)
 
             except Exception as e:
