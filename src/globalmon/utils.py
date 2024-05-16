@@ -88,8 +88,8 @@ def log_to_statsd(statsd_client, path_prefix, results):
 
     for service, service_results in results.items():
         logging.info(f"Logging {service}...")
-        for url, respose in service_results.items():
+        for url, response in service_results.items():
             service_path = f'{path_prefix}.{service}.{url}'
-            statsd_client.timing(f'stats.timer.{service_path}.{respose['return_code']}', respose['return_time'])
-            statsd_client.incr(f'stats.counter.{service_path}.{respose['return_code']}')
+            statsd_client.timing(f'stats.timer.{service_path}.{response["return_code"]}', response['return_time'])
+            statsd_client.incr(f'stats.counter.{service_path}.{response["return_code"]}')
 
