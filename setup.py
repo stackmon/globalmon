@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 
 setup(
-    name='globalmon',  # Name of your package
+    name='globalmon',  # Name of the package
     version='0.1.0',  # Version number
     description='Global URL monitoring',
     long_description=open('README.md').read(),  # Description from README file
@@ -14,6 +14,12 @@ setup(
 
     # Keywords to indicate what your project is about
     keywords='global URL monitoring endpoints',
+
+    test_suite='tests',  # Tells setuptools where to find the tests
+    tests_require=[
+        #'unittest',
+        'requests-mock',
+    ],  # Specify any test dependencies here
     
     # Packages to include
     package_dir={'':'src'},
