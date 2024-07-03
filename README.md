@@ -1,4 +1,4 @@
-# global-mon
+# globalmon
 Global URL monitoring
 
 ## Introduction

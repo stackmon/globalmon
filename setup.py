@@ -7,7 +7,7 @@ setup(
     description='Global URL monitoring',
     long_description=open('README.md').read(),  # Description from README file
     long_description_content_type='text/markdown',
-    url='https://github.com/stackmon/global-mon',  # URL to your package's repository
+    url='https://github.com/stackmon/globalmon',  # URL to your package's repository
     author='Muneeb H. Jan',
     author_email='muneeb-hafeez.jan@t-systems.com',
     license='Apache License Version 2.0',  # License type
