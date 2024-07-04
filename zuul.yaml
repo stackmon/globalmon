@@ -21,6 +21,8 @@
     default-branch: main
     check:
       jobs:
+        - otc-tox-pep8
+        - otc-tox-py39
         - stackmon-globalmon-build-image
     gate:
       jobs:
