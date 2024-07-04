@@ -1,5 +1,4 @@
-from setuptools import setup, find_packages
-from setuptools.command.install import install
+from setuptools import setup
 
 setup(
     name='globalmon',  # Name of the package
@@ -7,7 +6,7 @@ setup(
     description='Global URL monitoring',
     long_description=open('README.md').read(),  # Description from README file
     long_description_content_type='text/markdown',
-    url='https://github.com/stackmon/globalmon',  # URL to your package's repository
+    url='https://github.com/stackmon/globalmon',  # URL to your repository
     author='Muneeb H. Jan',
     author_email='muneeb-hafeez.jan@t-systems.com',
     license='Apache License Version 2.0',  # License type
@@ -38,7 +37,8 @@ setup(
     # Entry points
     entry_points={
         'console_scripts': [
-            'globalmon = globalmon.server:main',  # Example command-line script
+            # Example command-line script
+            'globalmon = globalmon.server:main',
         ],
     },
 

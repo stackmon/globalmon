@@ -13,8 +13,11 @@
 
 import logging
 import time
-import yaml
-from globalmon.utils import heartbeat_check, initialize_statsd_client, log_to_statsd
+from globalmon.utils import (
+    heartbeat_check,
+    initialize_statsd_client,
+    log_to_statsd,
+)
 
 
 class GlobalmonWorker:
@@ -31,7 +34,7 @@ class GlobalmonWorker:
         """
         while self.keep_running:
             try:
-                logging.info(f"Starting worker thread...")
+                logging.info("Starting worker thread...")
                 # print(f"Running with configuration file: \n{self.config}")
 
                 heartbeat_results = heartbeat_check(self.config['services'])
@@ -47,7 +50,7 @@ class GlobalmonWorker:
                 time.sleep(5)
 
             except Exception as e:
-                logging.exception("An error occurred:")
+                logging.exception(f"An error occurred: {e}")
 
     def stop(self):
         """
