@@ -17,17 +17,17 @@ setup(
 
     test_suite='tests',  # Tells setuptools where to find the tests
     tests_require=[
-        #'unittest',
+        # 'unittest',
         'requests-mock',
     ],  # Specify any test dependencies here
-    
+
     # Packages to include
-    package_dir={'':'src'},
+    package_dir={'': 'src'},
     packages=[
         'globalmon',
     ],
 
-    #Dependencies
+    # Dependencies
     install_requires=[
         'PyYAML',
         'requests',

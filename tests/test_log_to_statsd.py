@@ -15,8 +15,10 @@ class TestLogToStatsd(unittest.TestCase):
             }
         }
         log_to_statsd(mock_client, 'prefix', results)
-        mock_client.timing.assert_called_once_with('stats.timer.prefix.example_service.http://example.com.200', 100)
-        mock_client.incr.assert_called_once_with('stats.counter.prefix.example_service.http://example.com.200')
+        mock_client.timing.assert_called_once_with(
+            'stats.timer.prefix.example_service.http://example.com.200', 100)
+        mock_client.incr.assert_called_once_with(
+            'stats.counter.prefix.example_service.http://example.com.200')
 
 
 if __name__ == '__main__':

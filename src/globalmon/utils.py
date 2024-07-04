@@ -21,18 +21,18 @@ def heartbeat_check(services):
     """
     Checks the reachability of URLs defined in dictionary 'services'
     Args:
-    - services (dict) 
+    - services (dict)
       Structure:
-      
+
       service_name:
           urls:
               - url1
               ...
-    
-    Returns: 
+
+    Returns:
     - Dictionary, result, containing return_code and return_time
       Structure:
-      
+
       service_name:
         url1:
           return_code: x
@@ -47,7 +47,8 @@ def heartbeat_check(services):
                 start_time = time.time()
                 response = requests.get(url)
                 end_time = time.time()
-                response_time = int((end_time - start_time) * 1000)  # Convert to milliseconds
+                # Convert to milliseconds
+                response_time = int((end_time - start_time) * 1000)
                 return_data = {
                     'return_code': response.status_code,
                     'return_time': response_time
@@ -75,6 +76,7 @@ def initialize_statsd_client(host='localhost', port=8125):
     """
     return statsd.StatsClient(host, port)
 
+
 def log_to_statsd(statsd_client, path_prefix, results):
     """
     Send data to StatsD.
@@ -83,13 +85,15 @@ def log_to_statsd(statsd_client, path_prefix, results):
     - statsd_client (statsd.StatsClient): The initialized StatsD client.
     - prefix (prefix): The name of the timer metric.
     - results (dict): The duration in milliseconds.
-    
+
     """
 
     for service, service_results in results.items():
         logging.info(f"Logging {service}...")
         for url, response in service_results.items():
             service_path = f'{path_prefix}.{service}.{url}'
-            statsd_client.timing(f'stats.timer.{service_path}.{response["return_code"]}', response['return_time'])
-            statsd_client.incr(f'stats.counter.{service_path}.{response["return_code"]}')
-
+            statsd_client.timing(
+                f'stats.timer.{service_path}.{response["return_code"]}',
+                response['return_time'])
+            statsd_client.incr(
+                f'stats.counter.{service_path}.{response["return_code"]}')

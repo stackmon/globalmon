@@ -14,7 +14,8 @@ class TestHeartbeatCheck(unittest.TestCase):
         result = heartbeat_check(services)
         expected_result = {
             'example_service': {
-                'https://example.com': {'return_code': 200, 'return_time': 0}  # Expected response time
+                # Expected response time
+                'https://example.com': {'return_code': 200, 'return_time': 0}
             }
         }
         self.assertEqual(result, expected_result)
@@ -27,7 +28,7 @@ class TestHeartbeatCheck(unittest.TestCase):
         }
         with self.assertRaises(Exception) as context:
             heartbeat_check(services)
-        
+
         self.assertEqual(str(context.exception), "Connection Error")
 
 

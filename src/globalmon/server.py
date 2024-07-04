@@ -18,6 +18,7 @@ import threading
 import logging
 from globalmon.globalmon_worker import GlobalmonWorker
 
+
 def load_config(config_file):
     """
     Loads YAML configuration file from path `config_file` and
@@ -30,17 +31,28 @@ def load_config(config_file):
     except yaml.YAMLError as e:
         raise ValueError(f"Error parsing YAML file: {e}")
 
+
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', required=True, help='Path to the config file')
-    parser.add_argument('--debug', action='store_true', help='Enable debug mode')
+    parser.add_argument(
+        '--config',
+        required=True,
+        help='Path to the config file')
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Enable debug mode')
     args = parser.parse_args()
 
     if args.debug:
-        logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+        logging.basicConfig(
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            level=logging.DEBUG)
     else:
-        logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+        logging.basicConfig(
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            level=logging.INFO)
 
     config_filepath = args.config
 
