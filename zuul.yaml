@@ -14,6 +14,7 @@
 - job:
     name: stackmon-globalmon-upload-image
     parent: stackmon-upload-container-images
+    provides: globalmon-container-image
     vars: *globalmon_image_vars
 
 - project:
