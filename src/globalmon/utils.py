@@ -91,7 +91,7 @@ def log_to_statsd(statsd_client, path_prefix, results):
     for service, service_results in results.items():
         logging.info(f"Logging {service}...")
         for url, response in service_results.items():
-            domain = url.split('/')[2].replace(".","_")
+            domain = url.split('/')[2].replace(".", "_")
             service_path = f'{path_prefix}.{service}.{domain}'
             statsd_client.timing(
                 f'{service_path}.{response["return_code"]}',
