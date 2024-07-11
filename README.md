@@ -23,8 +23,14 @@ python3 setup.py install
 
 Once the install is completed, globalmon can be executed as:
 
-```
-globalmon --config *path/to/your/config.yaml*
+```bash
+usage: globalmon [-h] --config CONFIG [--debug] [--period PERIOD]
+
+options:
+  -h, --help       show this help message and exit
+  --config CONFIG  Path to the config file
+  --debug          Enable debug mode
+  --period PERIOD  Time period between consecutive queries (in seconds)
 ```
 
 ### Containerized Installation
