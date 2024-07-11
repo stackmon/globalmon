@@ -43,7 +43,15 @@ def main():
         '--debug',
         action='store_true',
         help='Enable debug mode')
+    parser.add_argument(
+        '--period',
+        type=int,
+        required=False,
+        default=10,
+        help='Time period between consecutive queries (in seconds)')
     args = parser.parse_args()
+
+    period = args.period
 
     if args.debug:
         logging.basicConfig(
@@ -72,7 +80,7 @@ def main():
     globalmonWorker = GlobalmonWorker(config)
 
     # Create a new thread
-    worker_thread = threading.Thread(target=globalmonWorker.run)
+    worker_thread = threading.Thread(target=globalmonWorker.run(period))
 
     try:
         # Start the thread
