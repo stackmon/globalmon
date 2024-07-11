@@ -28,7 +28,7 @@ class GlobalmonWorker:
             self.statsd_client = initialize_statsd_client(
                 config["statsd"]["host"], config["statsd"]["port"])
 
-    def run(self):
+    def run(self, period):
         """
         Starts endpoint monitoring and data collection.
         """
@@ -47,7 +47,7 @@ class GlobalmonWorker:
                         path_prefix,
                         heartbeat_results)
 
-                time.sleep(5)
+                time.sleep(period)
 
             except Exception as e:
                 logging.exception(f"An error occurred: {e}")
