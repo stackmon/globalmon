@@ -45,7 +45,7 @@ def heartbeat_check(services):
         for url in url_list['urls']:
             try:
                 start_time = time.time()
-                response = requests.get(url)
+                response = requests.get(url, Timeout=10)
                 end_time = time.time()
                 # Convert to milliseconds
                 response_time = int((end_time - start_time) * 1000)
@@ -54,10 +54,17 @@ def heartbeat_check(services):
                     'return_time': response_time
                 }
                 result[service][url] = return_data
-            except requests.RequestException as e:
+            except requests.exceptions.Timeout:
                 return_data = {
-                    'return_code': 'Error',
-                    'return_time': str(e)
+                    'return_code': 'timeout',
+                    'return_time': 10
+                }
+                result[service][url] = return_data
+            except requests.RequestException as e:
+                logging.error(str(e))
+                return_data = {
+                    'return_code': 'failed',
+                    'return_time': 0
                 }
                 result[service][url] = return_data
     return result
