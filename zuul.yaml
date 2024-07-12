@@ -12,10 +12,28 @@
           tags: &imagetag "{{ zuul.tag is defined | ternary([zuul.get('tag', '').split('.')[0], '.'.join(zuul.get('tag', '').split('.')[:2]), zuul.get('tag', '')], ['latest']) }}"
 
 - job:
+    name: stackmon-globalmon-build-release-image
+    parent: otc-build-container-image
+    description: Build Globalmon container image for release
+    provides: globalmon-release-container-image
+    vars: &globalmon_release_vars
+      container_images:
+        - context: .
+          registry: quay.io
+          repository: stackmon/globalmon
+          tags: &relelasetag "latest"
+
+- job:
     name: stackmon-globalmon-upload-image
     parent: stackmon-upload-container-images
     provides: globalmon-container-image
     vars: *globalmon_image_vars
+
+- job:
+    name: stackmon-globalmon-upload-release-image
+    parent: stackmon-upload-container-images
+    provides: globalmon-release-container-image
+    vars: *globalmon_release_vars
 
 - project:
     merge-mode: squash-merge
@@ -30,4 +48,5 @@
         - stackmon-globalmon-upload-image
     release:
       jobs:
-        - stackmon-globalmon-upload-image
+        - stackmon-globalmon-build-release-image
+        - stackmon-globalmon-upload-release-image
