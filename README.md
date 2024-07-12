@@ -57,3 +57,5 @@ docker run -v /path/to/config.yaml:/usr/app/globalmon/config.yaml globalmon
 ```
 docker run -v /path/to/config.yaml:/some/other/path/config.yaml globalmon --config /some/other/path/config.yaml
 ```
+
+**NOTE:** Latest Globalmon images can be found at https://quay.io/repository/stackmon/globalmon?tab=tags
