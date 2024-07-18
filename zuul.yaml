@@ -46,7 +46,7 @@
     gate:
       jobs:
         - stackmon-globalmon-upload-image
-    release:
+    post:
       jobs:
         - stackmon-globalmon-build-release-image
         - stackmon-globalmon-upload-release-image
