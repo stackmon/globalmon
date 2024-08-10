@@ -45,7 +45,7 @@ def heartbeat_check(services):
         for url in url_list['urls']:
             try:
                 start_time = time.time()
-                response = requests.get(url, Timeout=10)
+                response = requests.get(url, timeout=10)
                 end_time = time.time()
                 # Convert to milliseconds
                 response_time = int((end_time - start_time) * 1000)
