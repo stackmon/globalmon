@@ -40,7 +40,7 @@ def heartbeat_check(services):
     """
     result = {}
     for service, url_list in services.items():
-        logging.info(f"Checking {service}...")
+        # logging.info(f"Checking {service}...")
         result[service] = {}
         for url in url_list['urls']:
             try:
@@ -96,7 +96,7 @@ def log_to_statsd(statsd_client, path_prefix, results):
     """
 
     for service, service_results in results.items():
-        logging.info(f"Logging {service}...")
+        # logging.info(f"Logging {service}...")
         for url, response in service_results.items():
             domain = url.split('/')[2].replace(".", "_")
             service_path = f'{path_prefix}.{service}.{domain}'
