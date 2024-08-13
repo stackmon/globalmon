@@ -16,11 +16,6 @@ import requests
 import logging
 import statsd
 
-proxies = {
-    'http': 'http://sia-lb.telekom.de:8080',
-    'https': 'http://sia-lb.telekom.de:8080',
-}
-
 
 def heartbeat_check(services):
     """
