@@ -60,8 +60,16 @@ def heartbeat_check(services):
                     'return_time': 10
                 }
                 result[service][url] = return_data
+            except requests.exceptions.ConnectionError as e:
+                # Log name resolution and other connection failures
+                logging.error(f"Connection error for {url}: {str(e)}")
+                return_data = {
+                    'return_code': 'connection_failed',
+                    'return_time': 0
+                }
+                result[service][url] = return_data
             except requests.RequestException as e:
-                logging.error(str(e))
+                logging.error(f"Request failed for {url}: {str(e)}")
                 return_data = {
                     'return_code': 'failed',
                     'return_time': 0
