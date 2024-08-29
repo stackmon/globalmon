@@ -1,17 +1,49 @@
 # globalmon
-Global URL monitoring
 
-## Introduction
+Globalmon is a static global monitoring application written in Python. Globalmon queries the list of urls provided for each service and passes the results to Graphite TSDB via Statsd daemon.
 
-## Requirements
+Using Globalmon, you can continuously monitor reachability and return times for hosted services.
+
+## Getting started
 
 The globalmon requires the following to work.
 - Python3
-- Docker or similar tool
+- Docker or similar tool (for containerized installation)
+- StatsD
+- Graphite
+- setuptools (for local installation)
 
-Globalmon is also dependent on configuration file in yaml format. A sample configuration file, *config.yaml*, is included in base directory. 
+Globalmon is also dependent on configuration file in yaml format. A sample configuration file, *config.yaml*, is included in base directory.
+
+## Useful Links
+
+* [Install Docker Engine on Linux](https://docs.docker.com/desktop/install/linux-install/)
+* [Install and run StatsD/Graphite](https://graphite.readthedocs.io/en/latest/install.html)
 
 ## Quickstart
+
+### Configuration
+
+Globalmon configuration is a simple yaml file with services and statsd information defined in there.
+
+```yaml
+services:
+  myservice1:
+    urls:
+      - "https://myservice1.example.com"
+  myservice2:
+    urls:
+      - "https://myservice2.example.com"
+statsd:
+  host: "{STATSD_HOST}"
+  port: 8125
+  path: "globalmon.{env}.{zone}"
+```
+
+***NOTE:*** Use fully qualified domain names in URLS **including protocol (http/https)**.
+
+You can monitor any service and any URLs. Replace the ```STATSD_HOST``` with address of your statsd daemon. 
+Path can be anything you decide. However, some characters such as ```/``` might create unusual behaviour in StatsD. Using the format shown above, your metrics should be found in Graphite under the path ```Metrics/stats/timers/globalmon/{env}/{zone}/``` and ```Metrics/stats/counter/globalmon/{env}/{zone}/```. 
 
 ### Local Installation
 
@@ -31,6 +63,11 @@ options:
   --config CONFIG  Path to the config file
   --debug          Enable debug mode
   --period PERIOD  Time period between consecutive queries (in seconds)
+```
+
+For example...
+```
+globalmon --config /Path/to/your/config.yaml
 ```
 
 ### Containerized Installation
