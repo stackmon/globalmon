@@ -19,6 +19,8 @@ class TestLogToStatsd(unittest.TestCase):
             'prefix.example_service.example_com.200', 100)
         mock_client.incr.assert_called_once_with(
             'counter.prefix.example_service.example_com.200')
+        mock_client.incr.assert_called_once_with(
+            'counter.prefix.example_service.example_com.attempted')
 
 
 if __name__ == '__main__':
