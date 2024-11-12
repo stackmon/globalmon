@@ -17,8 +17,13 @@ class TestLogToStatsd(unittest.TestCase):
         log_to_statsd(mock_client, 'prefix', results)
         mock_client.timing.assert_called_once_with(
             'prefix.example_service.example_com.200', 100)
-        mock_client.incr.assert_called_once_with(
-            'counter.prefix.example_service.example_com.200')
+        # Verify both increment calls
+        mock_client.incr.assert_has_calls([
+            # First increment call with the return code
+            unittest.mock.call('counter.prefix.example_service.example_com.200'), # noqa
+            # Second increment call for 'attempted'
+            unittest.mock.call('counter.prefix.example_service.example_com.attempted') # noqa
+        ], any_order=True)
 
 
 if __name__ == '__main__':

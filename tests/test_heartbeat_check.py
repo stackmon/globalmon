@@ -31,7 +31,7 @@ class TestHeartbeatCheck(unittest.TestCase):
         result = heartbeat_check(services)
         expected_result = {'example_service': {
             'https://example.com': {
-                'return_code': 'timeout', 'return_time': 10
+                'return_code': 'timeout', 'return_time': 10000
                 }
             }
         }

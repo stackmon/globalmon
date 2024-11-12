@@ -57,7 +57,7 @@ def heartbeat_check(services):
             except requests.exceptions.Timeout:
                 return_data = {
                     'return_code': 'timeout',
-                    'return_time': 10
+                    'return_time': 10000
                 }
                 result[service][url] = return_data
             except requests.exceptions.ConnectionError as e:
@@ -113,3 +113,5 @@ def log_to_statsd(statsd_client, path_prefix, results):
                 int(response['return_time']))
             statsd_client.incr(
                 f'counter.{service_path}.{response["return_code"]}')
+            statsd_client.incr(
+                f'counter.{service_path}.attempted')
