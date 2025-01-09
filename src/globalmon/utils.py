@@ -16,6 +16,7 @@ import requests
 import logging
 import statsd
 
+logger = logging.getLogger("globalmon_logger")
 
 def heartbeat_check(services):
     """
@@ -40,7 +41,7 @@ def heartbeat_check(services):
     """
     result = {}
     for service, url_list in services.items():
-        # logging.info(f"Checking {service}...")
+        # logger.info(f"Checking {service}...")
         result[service] = {}
         for url in url_list['urls']:
             try:
@@ -62,14 +63,14 @@ def heartbeat_check(services):
                 result[service][url] = return_data
             except requests.exceptions.ConnectionError as e:
                 # Log name resolution and other connection failures
-                logging.error(f"Connection error for {url}: {str(e)}")
+                logger.error(f"Connection error for {url}: {str(e)}")
                 return_data = {
                     'return_code': 'connection_failed',
                     'return_time': 0
                 }
                 result[service][url] = return_data
             except requests.RequestException as e:
-                logging.error(f"Request failed for {url}: {str(e)}")
+                logger.error(f"Request failed for {url}: {str(e)}")
                 return_data = {
                     'return_code': 'failed',
                     'return_time': 0
@@ -104,7 +105,7 @@ def log_to_statsd(statsd_client, path_prefix, results):
     """
 
     for service, service_results in results.items():
-        # logging.info(f"Logging {service}...")
+        # logger.info(f"Logging {service}...")
         for url, response in service_results.items():
             domain = url.split('/')[2].replace(".", "_")
             service_path = f'{path_prefix}.{service}.{domain}'
