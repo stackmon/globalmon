@@ -20,9 +20,9 @@ class TestLogToStatsd(unittest.TestCase):
         # Verify both increment calls
         mock_client.incr.assert_has_calls([
             # First increment call with the return code
-            unittest.mock.call('counter.prefix.example_service.example_com.200'), # noqa
+            unittest.mock.call('counter.prefix.example_service.example_com.200'),  # noqa
             # Second increment call for 'attempted'
-            unittest.mock.call('counter.prefix.example_service.example_com.attempted') # noqa
+            unittest.mock.call('counter.prefix.example_service.example_com.attempted')  # noqa
         ], any_order=True)
 
 

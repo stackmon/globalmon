@@ -18,6 +18,7 @@ import statsd
 
 logger = logging.getLogger("globalmon_logger")
 
+
 def heartbeat_check(services):
     """
     Checks the reachability of URLs defined in dictionary 'services'

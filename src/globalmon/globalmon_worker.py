@@ -21,6 +21,7 @@ from globalmon.utils import (
 
 logger = logging.getLogger("globalmon_logger")
 
+
 class GlobalmonWorker:
     def __init__(self, config) -> None:
         self.config = config

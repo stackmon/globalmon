@@ -54,7 +54,7 @@ def main():
 
     period = args.period
 
-        # Define the log file location
+    # Define the log file location
     log_file = "/var/log/globalmon/globalmon.log"
 
     # Create a custom logger
@@ -64,12 +64,15 @@ def main():
         # Set the level of the logger to DEBUG
         logger.setLevel(logging.DEBUG)
     else:
-        # Set the level of the logger to WARNING (INFO messages will be excluded)
+        # Set the level of the logger to WARNING (INFO messages will be
+        # excluded)
         logger.setLevel(logging.WARNING)
 
     # Create a rotating file handler
     # Max file size: 5 MB, keep 3 backup files
-    handler = RotatingFileHandler(log_file, maxBytes=5 * 1024 * 1024, backupCount=3)
+    handler = RotatingFileHandler(
+        log_file, maxBytes=5 * 1024 * 1024,
+        backupCount=3)
 
     # Set the format for the logs
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -89,7 +92,7 @@ def main():
     config = load_config(config_filepath)
 
     # Your main application logic here
-    logger.info("Reading configuration:")
+    print("Reading configuration:")
     print(config)
 
     logger.info("Creating a new worker.")
