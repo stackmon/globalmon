@@ -47,6 +47,17 @@ Path can be anything you decide. However, some characters such as ```/``` might 
 
 ### Local Installation
 
+Before we get started, we need to set up the logging directory.
+
+```bash
+# Make sure that the directory /var/log/globalmon/ exists or create it.
+sudo mkdir -p /var/log/globalmon
+# Ensure the user running the Python script has write permissions to the directory
+sudo chmod -R 755 /var/log/globalmon
+sudo chown -R $USER:$USER /var/log/globalmon
+# Replace $USER with the username running the script IF necessary.
+```
+
 To build and install the globalmon package use the following command:
 
 ```
