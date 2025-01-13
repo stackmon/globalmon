@@ -19,6 +19,8 @@ from globalmon.utils import (
     log_to_statsd,
 )
 
+logger = logging.getLogger("globalmon_logger")
+
 
 class GlobalmonWorker:
     def __init__(self, config) -> None:
@@ -34,7 +36,7 @@ class GlobalmonWorker:
         """
         while self.keep_running:
             try:
-                logging.info("Starting worker thread...")
+                logger.info("Starting worker thread...")
                 # print(f"Running with configuration file: \n{self.config}")
 
                 heartbeat_results = heartbeat_check(self.config['services'])
@@ -50,7 +52,7 @@ class GlobalmonWorker:
                 time.sleep(period)
 
             except Exception as e:
-                logging.exception(f"An error occurred: {e}")
+                logger.exception(f"An error occurred: {e}")
 
     def stop(self):
         """

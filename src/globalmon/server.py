@@ -16,6 +16,7 @@ import argparse
 import yaml
 import threading
 import logging
+from logging.handlers import RotatingFileHandler
 from globalmon.globalmon_worker import GlobalmonWorker
 
 
@@ -53,18 +54,36 @@ def main():
 
     period = args.period
 
+    # Define the log file location
+    log_file = "/var/log/globalmon/globalmon.log"
+
+    # Create a custom logger
+    logger = logging.getLogger("globalmon_logger")
+
     if args.debug:
-        logging.basicConfig(
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            level=logging.DEBUG)
+        # Set the level of the logger to DEBUG
+        logger.setLevel(logging.DEBUG)
     else:
-        logging.basicConfig(
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            level=logging.INFO)
+        # Set the level of the logger to WARNING (INFO messages will be
+        # excluded)
+        logger.setLevel(logging.WARNING)
+
+    # Create a rotating file handler
+    # Max file size: 5 MB, keep 3 backup files
+    handler = RotatingFileHandler(
+        log_file, maxBytes=5 * 1024 * 1024,
+        backupCount=3)
+
+    # Set the format for the logs
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+
+    # Add the handler to the logger
+    logger.addHandler(handler)
 
     config_filepath = args.config
 
-    logging.info("Loading configuration file.")
+    logger.info("Loading configuration file.")
     # Check if the file extension is .yaml or .yml
     if not config_filepath.lower().endswith(('.yaml', '.yml')):
         raise ValueError("Config file must be a YAML file (.yaml or .yml)")
@@ -76,7 +95,7 @@ def main():
     print("Reading configuration:")
     print(config)
 
-    logging.info("Creating a new worker.")
+    logger.info("Creating a new worker.")
     globalmonWorker = GlobalmonWorker(config)
 
     # Create a new thread

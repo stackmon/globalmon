@@ -17,4 +17,4 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Run my_app.py with the specified config file
-globalmon --config "$CONFIG_FILE"  >> /var/log/globalmon/globalmon.log 2>&1
+globalmon --config "$CONFIG_FILE"
