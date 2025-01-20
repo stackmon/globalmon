@@ -15,6 +15,7 @@ import time
 import requests
 import logging
 import statsd
+from urllib.parse import urlparse
 
 logger = logging.getLogger("globalmon_logger")
 
@@ -108,7 +109,7 @@ def log_to_statsd(statsd_client, path_prefix, results):
     for service, service_results in results.items():
         # logger.info(f"Logging {service}...")
         for url, response in service_results.items():
-            domain = url.split('/')[2].replace(".", "_")
+            domain = convert_url_to_identifier(url)
             service_path = f'{path_prefix}.{service}.{domain}'
             statsd_client.timing(
                 f'{service_path}.{response["return_code"]}',
@@ -117,3 +118,13 @@ def log_to_statsd(statsd_client, path_prefix, results):
                 f'counter.{service_path}.{response["return_code"]}')
             statsd_client.incr(
                 f'counter.{service_path}.attempted')
+
+
+def convert_url_to_identifier(url):
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    # Remove leading/trailing slashes
+    path = parsed_url.path.strip('/')
+    # Combine domain and path, replacing '.' and '/' with '_'
+    combined = f"{domain}/{path}".replace(".", "_").replace("/", "_")
+    return combined
