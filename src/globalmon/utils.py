@@ -121,10 +121,17 @@ def log_to_statsd(statsd_client, path_prefix, results):
 
 
 def convert_url_to_identifier(url):
+    # FUTURE REFERENCE
+    # Add a default scheme if missing
+    if not urlparse(url).scheme:
+        url = "http://" + url
     parsed_url = urlparse(url)
+    # Get the domain and path
     domain = parsed_url.netloc
-    # Remove leading/trailing slashes
     path = parsed_url.path.strip('/')
     # Combine domain and path, replacing '.' and '/' with '_'
-    combined = f"{domain}/{path}".replace(".", "_").replace("/", "_")
+    if path:
+        combined = f"{domain}/{path}".replace(".", "_").replace("/", "_")
+    else:
+        combined = domain.replace(".", "_")
     return combined
